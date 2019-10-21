@@ -1,8 +1,7 @@
-sudo:required
+sudo: required
 language: generic
 services:
    - docker
-
 before_install:
    - docker build -t sakthi/react-test -f ./client/Dockerfile.dev ./client
 
