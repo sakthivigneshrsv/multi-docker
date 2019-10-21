@@ -1,0 +1,20 @@
+sudo:required
+services:
+   - docker
+
+before_install:
+   - docker build -t sakthi/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+   - docker run -e CI=true sakthi/react-test npm test
+
+after_success:
+   - docker build -t sakthi/multi-client ./client
+   - docker build -t sakthi/multi-nginx ./nginx
+   - docker build -t sakthi/multi-server ./server
+   - docker build -t sakthi/multi-worker ./worker
+   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+   - docker push sakthi/multi-client
+   - docker push sakthi/multi-nginx
+   - docker push sakthi/multi-server
+   - docker push sakthi/multi-worker
