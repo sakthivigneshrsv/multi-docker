@@ -3,9 +3,9 @@ language: generic
 services:
    - docker
 before_install:
-   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-   - echo "$DOCKER_ID"
-   - echo "$DOCKER_PASSWORD"
+   - echo $DOCKER_PASSWORD | docker login -u $DOCKER_ID --password-stdin
+   - echo $DOCKER_ID
+   - echo $DOCKER_PASSWORD
    - docker build -t sakthi/react-test -f ./client/Dockerfile.dev ./client   
 
 script:
@@ -16,7 +16,8 @@ after_success:
    - docker build -t sakthi/multi-nginx ./nginx
    - docker build -t sakthi/multi-server ./server
    - docker build -t sakthi/multi-worker ./worker
-   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+   - echo $DOCKER_PASSWORD | docker login -u $DOCKER_ID --password-stdin
+   - echo "\@00Dungeons00\@" | docker login -u "sakthivigneshrsv" --password-stdin
    - docker push sakthi/multi-client
    - docker push sakthi/multi-nginx
    - docker push sakthi/multi-server
