@@ -3,22 +3,20 @@ language: generic
 services:
    - docker
 before_install:
-   - echo "@00Dungeons00@" | docker login -u "sakthivigneshrsv" --password-stdin
-   - echo $DOCKER_ID
-   - echo $DOCKER_PASSWORD
+   - echo "$DOCKER_ID"
+   - echo "$DOCKER_PASSWORD"
    - docker build -t sakthi/react-test -f ./client/Dockerfile.dev ./client   
 
 script:
    - docker run -e CI=true sakthi/react-test npm test
 
-after_success:
-   - echo "@00Dungeons00@" | docker login -u "sakthivigneshrsv" --password-stdin
-   - docker build -t sakthi/multi-client ./client
-   - docker build -t sakthi/multi-nginx ./nginx
-   - docker build -t sakthi/multi-server ./server
-   - docker build -t sakthi/multi-worker ./worker
-   - echo "@00Dungeons00@" | docker login -u "sakthivigneshrsv" --password-stdin
-   - docker push sakthi/multi-client
-   - docker push sakthi/multi-nginx
-   - docker push sakthi/multi-server
-   - docker push sakthi/multi-worker
+after_success:   
+   - docker build -t sakthivigneshrsv/multi-client ./client
+   - docker build -t sakthivigneshrsv/multi-nginx ./nginx
+   - docker build -t sakthivigneshrsv/multi-server ./server
+   - docker build -t sakthivigneshrsv/multi-worker ./worker
+   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+   - docker push sakthivigneshrsv/multi-client
+   - docker push sakthivigneshrsv/multi-nginx
+   - docker push sakthivigneshrsv/multi-server
+   - docker push sakthivigneshrsv/multi-worker
