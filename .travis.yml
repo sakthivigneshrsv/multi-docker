@@ -3,9 +3,10 @@ language: generic
 services:
    - docker
 before_install:
-   - docker build -t sakthi/react-test -f ./client/Dockerfile.dev ./client
-   - echo $DOCKER_ID
-   - echo $DOCKER_PASSWORD
+   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+   - echo "$DOCKER_ID"
+   - echo "$DOCKER_PASSWORD"
+   - docker build -t sakthi/react-test -f ./client/Dockerfile.dev ./client   
 
 script:
    - docker run -e CI=true sakthi/react-test npm test
